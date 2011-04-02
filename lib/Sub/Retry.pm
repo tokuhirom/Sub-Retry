@@ -57,7 +57,7 @@ Sub::Retry - retry $n times
 
 =head1 DESCRIPTION
 
-Sub::Retry provides the fuction named 'retry'.
+Sub::Retry provides the function named 'retry'.
 
 =head1 FUNCTIONS
 
