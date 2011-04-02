@@ -25,8 +25,6 @@ subtest 'fail' => sub {
 };
 
 subtest 'context' => sub {
-    my $i = 0;
-
     subtest 'list' => sub {
         my @x = retry 10, 0, sub {
             wantarray ? (1,2,3) : 0721;
@@ -48,6 +46,31 @@ subtest 'context' => sub {
         };
         ok $ok, 'void context';
     };
+};
+
+subtest 'retry cond' => sub {
+    subtest 'fail bad die' => sub {
+        my $i;
+        my $x = retry 10, 0, sub {
+            $i++;
+        }, sub { 1 };
+        is $i, 10;
+        ok !$x;
+    };
+
+    subtest 'success' => sub {
+        my $x = retry 10, 0, sub {
+            'ok';
+        }, sub { $_[0] ne 'ok' ? 1 : 0 };
+        is $x, 'ok';
+    };
+
+    subtest 'list context' => sub {
+        my @x = retry 10, 0, sub {
+            (1, 2, 3);
+        }, sub { my @ret = @_; join(':', @ret) eq '1:2:3' ? 0 : 1 };
+        is_deeply \@x, [qw/1 2 3/];
+    }
 };
 
 done_testing;
