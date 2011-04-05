@@ -1,5 +1,9 @@
 Revision history for Perl extension Sub::Retry
 
+0.03
+
+    - no feature changes
+
 0.02
 
     - added retry_if(xaicron)
