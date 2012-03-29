@@ -78,7 +78,7 @@ You can also customize the retry condition. In that case C<< \&retry_if >> speci
     my $cache = Cache::Memcached::Fast->new(...);
     my $res = retry 3, 1, sub {
         $cache->get('foo');
-    } sub {
+    }, sub {
         my $res = shift;
         defined $res ? 0 : 1;
     };
