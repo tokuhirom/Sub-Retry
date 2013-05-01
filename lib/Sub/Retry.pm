@@ -32,7 +32,7 @@ sub retry {
                 return $ret;
             }
         }
-        sleep $delay if $times;
+        sleep $delay if $times; # Do not sleep in last time
     }
     die $err if $err;
 }
