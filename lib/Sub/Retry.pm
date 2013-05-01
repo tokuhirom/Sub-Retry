@@ -2,7 +2,7 @@ package Sub::Retry;
 use strict;
 use warnings;
 use 5.008001;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 use parent qw/Exporter/;
 use Time::HiRes qw/sleep/;
 

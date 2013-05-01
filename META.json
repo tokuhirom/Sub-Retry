@@ -65,7 +65,7 @@
          "web" : "https://github.com/tokuhirom/Sub-Retry"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_contributors" : [
       "HIROSE Masaaki <hirose31@gmail.com>",
       "Tokuhiro Matsuno <tokuhirom@gmail.com>",
