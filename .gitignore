@@ -9,3 +9,10 @@ Build
 _build/
 xshelper.h
 tags
+/Sub-Retry-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+!LICENSE

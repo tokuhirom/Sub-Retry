@@ -1,5 +1,7 @@
 Revision history for Perl extension Sub::Retry
 
+{{$NEXT}}
+
 0.04
 
     - fixed typo in docs(xaicron)
