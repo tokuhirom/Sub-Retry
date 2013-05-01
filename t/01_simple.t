@@ -73,5 +73,17 @@ subtest 'retry cond' => sub {
     }
 };
 
+subtest 'omit trailing sleep' => sub {
+    no warnings 'redefine';
+
+    my $count = 0;
+    local *Sub::Retry::sleep = sub {
+        $count++;
+    };
+
+    my $x = retry 10, 0, sub {}, sub { 1 };
+    is $count, 9;
+};
+
 done_testing;
 
