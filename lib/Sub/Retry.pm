@@ -2,7 +2,7 @@ package Sub::Retry;
 use strict;
 use warnings;
 use 5.008001;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 use parent qw/Exporter/;
 use Time::HiRes qw/sleep/;
 
@@ -13,7 +13,7 @@ sub retry {
 
     my $err;
     $retry_if ||= sub { $err = $@ };
-  LOOP: for ( 1 .. $times ) {
+    while ( $times-- > 0 ) {
         if (wantarray) {
             my @ret = eval { $code->() };
             unless ($retry_if->(@ret)) {
@@ -32,7 +32,7 @@ sub retry {
                 return $ret;
             }
         }
-        sleep $delay;
+        sleep $delay if $times; # Do not sleep in last time
     }
     die $err if $err;
 }

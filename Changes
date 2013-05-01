@@ -1,5 +1,11 @@
 Revision history for Perl extension Sub::Retry
 
+{{$NEXT}}
+
+0.05 2013-05-01T08:42:39Z
+
+    - Do not sleep in last time
+
 0.04
 
     - fixed typo in docs(xaicron)
