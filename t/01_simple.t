@@ -85,5 +85,37 @@ subtest 'omit trailing sleep' => sub {
     is $count, 9;
 };
 
+subtest 'current number' => sub {
+    subtest 'list' => sub {
+        my @numbers;
+        my $i = 0;
+        my @x = retry 10, 0, sub {
+            push @numbers, shift;
+            die if ++$i < 10;
+        };
+        is_deeply \@numbers, [1..10];
+    };
+
+    subtest 'scalar' => sub {
+        my @numbers;
+        my $i = 0;
+        my $x = retry 10, 0, sub {
+            push @numbers, shift;
+            die if ++$i < 10;
+        };
+        is_deeply \@numbers, [1..10];
+    };
+
+    subtest 'void' => sub {
+        my @numbers;
+        my $i = 0;
+        retry 10, 0, sub {
+            push @numbers, shift;
+            die if ++$i < 10;
+        };
+        is_deeply \@numbers, [1..10];
+    };
+};
+
 done_testing;
 
