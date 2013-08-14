@@ -13,21 +13,23 @@ sub retry {
 
     my $err;
     $retry_if ||= sub { $err = $@ };
+    my $n = 0;
     while ( $times-- > 0 ) {
+        $n++;
         if (wantarray) {
-            my @ret = eval { $code->() };
+            my @ret = eval { $code->($n) };
             unless ($retry_if->(@ret)) {
                 return @ret;
             }
         }
         elsif (not defined wantarray) {
-            eval { $code->() };
+            eval { $code->($n) };
             unless ($retry_if->()) {
                 return;
             }
         }
         else {
-            my $ret = eval { $code->() };
+            my $ret = eval { $code->($n) };
             unless ($retry_if->($ret)) {
                 return $ret;
             }
@@ -53,6 +55,7 @@ Sub::Retry - retry $n times
 
     my $ua = LWP::UserAgent->new();
     my $res = retry 3, 1, sub {
+        my $n = shift;
         $ua->post('http://example.com/api/foo/bar');
     };
 
