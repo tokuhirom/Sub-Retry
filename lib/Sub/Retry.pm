@@ -2,7 +2,7 @@ package Sub::Retry;
 use strict;
 use warnings;
 use 5.008001;
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 use parent qw/Exporter/;
 use Time::HiRes qw/sleep/;
 
@@ -73,7 +73,7 @@ This function calls C<< \&code >>. If the code throws exception, this function r
 
 Return value of this function is the return value of C<< \&code >>. This function cares L<wantarray>.
 
-You can also customize the retry condition. In that case C<< \&retry_if >> specify coderef. The coderef arguments is return value the same. (Default: retry condition is throws exception)
+You can also customize the retry condition. In that case C<< \&retry_if >> specify CodeRef. The CodeRef arguments is return value the same. (Default: retry condition is throws exception)
 
     use Sub::Retry;
     use Cache::Memcached::Fast;

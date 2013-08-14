@@ -9,6 +9,7 @@ Sub::Retry - retry $n times
 
     my $ua = LWP::UserAgent->new();
     my $res = retry 3, 1, sub {
+        my $n = shift;
         $ua->post('http://example.com/api/foo/bar');
     };
 
@@ -24,7 +25,7 @@ Sub::Retry provides the function named 'retry'.
 
     Return value of this function is the return value of `\&code`. This function cares [wantarray](http://search.cpan.org/perldoc?wantarray).
 
-    You can also customize the retry condition. In that case `\&retry_if` specify coderef. The coderef arguments is return value the same. (Default: retry condition is throws exception)
+    You can also customize the retry condition. In that case `\&retry_if` specify CodeRef. The CodeRef arguments is return value the same. (Default: retry condition is throws exception)
 
         use Sub::Retry;
         use Cache::Memcached::Fast;

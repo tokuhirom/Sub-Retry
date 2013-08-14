@@ -2,6 +2,11 @@ Revision history for Perl extension Sub::Retry
 
 {{$NEXT}}
 
+0.06 2013-08-14T01:49:55Z
+
+    - add argument "$n" to &code
+      (Cside_)
+
 0.05 2013-05-01T08:42:39Z
 
     - Do not sleep in last time
