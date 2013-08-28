@@ -11,17 +11,18 @@ Revision history for Perl extension Sub::Retry
 
     - Do not sleep in last time
 
-0.04
+0.04 2011-06-04
 
     - fixed typo in docs(xaicron)
 
-0.03
+0.03 2011-04-04
 
     - no feature changes
 
-0.02
+0.02 2011-01-13
 
     - added retry_if(xaicron)
 
-0.01    Thu Jan 13 20:21:11 2011
-        - original version
+0.01 2011-01-13
+
+    - original version
