@@ -4,16 +4,17 @@ use warnings;
 use 5.008001;
 our $VERSION = '0.06';
 use parent qw/Exporter/;
-use Time::HiRes qw/sleep/;
+use Time::HiRes qw/sleep gettimeofday tv_interval/;
 
 our @EXPORT = qw/retry/;
 
 sub retry {
-    my ( $times, $delay, $code, $retry_if ) = @_;
+    my ( $times, $delay, $code, $retry_if, $timeout ) = @_;
 
     my $err;
     $retry_if ||= sub { $err = $@ };
     my $n = 0;
+    my $t = [gettimeofday];
     while ( $times-- > 0 ) {
         $n++;
         if (wantarray) {
@@ -34,6 +35,7 @@ sub retry {
                 return $ret;
             }
         }
+        last if $timeout && tv_interval($t) > $timeout;
         sleep $delay if $times; # Do not sleep in last time
     }
     die $err if $err;
@@ -67,7 +69,7 @@ Sub::Retry provides the function named 'retry'.
 
 =over 4
 
-=item retry($n_times, $delay, \&code [, \&retry_if])
+=item retry($n_times, $delay, \&code [, \&retry_if, $timeout])
 
 This function calls C<< \&code >>. If the code throws exception, this function retry C<< $n_times >> after C<< $delay >> seconds.
 
@@ -85,6 +87,14 @@ You can also customize the retry condition. In that case C<< \&retry_if >> speci
         my $res = shift;
         defined $res ? 0 : 1;
     };
+
+You can set the 5th argment for timeout. If the elapsed time was over C<< $timeout >> at the end of every try, then finish trying at the time. Below example will retry 2 times only(no execute 3rd try).
+
+    use Sub::Retry;
+
+    my $res = retry 3, 1, sub {
+        sleep 3; die;
+    }, '', 5;
 
 =back
 

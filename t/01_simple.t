@@ -117,5 +117,18 @@ subtest 'current number' => sub {
     };
 };
 
+subtest 'timeout' => sub {
+    my $i = 0;
+    eval {
+        retry 3, 1, sub {
+            $i++;
+            sleep 3;
+            die $i;
+        }, '', 5;
+    };
+    like $@, qr/^2/;
+    is $i, 2;
+};
+
 done_testing;
 
