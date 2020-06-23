@@ -12,24 +12,28 @@ sub retry {
     my ( $times, $delay, $code, $retry_if ) = @_;
 
     my $err;
-    $retry_if ||= sub { $err = $@ };
+    $retry_if ||= sub { $err };
+
     my $n = 0;
     while ( $times-- > 0 ) {
         $n++;
         if (wantarray) {
             my @ret = eval { $code->($n) };
+            $err = $@;
             unless ($retry_if->(@ret)) {
                 return @ret;
             }
         }
         elsif (not defined wantarray) {
             eval { $code->($n) };
+            $err = $@;
             unless ($retry_if->()) {
                 return;
             }
         }
         else {
             my $ret = eval { $code->($n) };
+            $err = $@;
             unless ($retry_if->($ret)) {
                 return $ret;
             }
