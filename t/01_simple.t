@@ -58,6 +58,47 @@ subtest 'retry cond' => sub {
         ok !$x;
     };
 
+    subtest 'dead and retry' => sub {
+        my $i;
+        eval {
+            retry 10, 0, sub {
+                $i++;
+                die "FAIL";
+            }, sub { $@ };
+        };
+        is $i, 10;
+        like $@, qr/FAIL/;
+        like $@, qr/\Q@{[ __FILE__ ]}/;
+    };
+
+    subtest 'dead and abort' => sub {
+        my $i;
+        eval {
+            retry 10, 0, sub {
+                $i++;
+                die "ABORT";
+            }, sub {
+                my $e = $@;
+                if ($e =~ /^ABORT/) {
+                    die $e;
+                }
+                return 0;
+            };
+        };
+        like $@, qr/ABORT/;
+        like $@, qr/\Q@{[ __FILE__ ]}/;
+        is $i, 1;
+    };
+
+    subtest 'dead and ignore' => sub {
+        my $i;
+        retry 10, 0, sub {
+            $i++;
+            die "FAIL";
+        }, sub { 0 };
+        is $i, 1;
+    };
+
     subtest 'success' => sub {
         my $x = retry 10, 0, sub {
             'ok';
